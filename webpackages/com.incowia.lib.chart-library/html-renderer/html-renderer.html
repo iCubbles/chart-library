@@ -1,0 +1,10 @@
+<link rel="import" href="html-renderer-style.html">
+<dom-module id="html-renderer">
+
+    <template>
+        <style include="html-renderer-style"></style>
+        <iframe id$="{{model.id}}" src="{{model.src}}"></iframe>
+    </template>
+
+    <script src="html-renderer.js"></script>
+</dom-module>

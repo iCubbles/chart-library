@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>&lt;line-chart&gt;</title>
+
+    <script src="../../../cubx.core.rte@1.5.0-SNAPSHOT/webcomponents/webcomponents-lite.js"></script>
+
+    <!--
+        Declare a CRCInit-Object used to initialize the CRC (Client-Runtime-Container):
+        * rootDependencies //a string array; string pattern: webpackageId/artifactId/endpointId
+        ** to refer to artifacts of this webpackage, use 'this' as webpackageId
+    -->
+    <script>
+        window.cubx = {
+            CRCInit: {
+                rootDependencies: [
+                    "this/line-chart/main"
+                ]
+            }
+        }
+    </script>
+
+    <!--
+        Refer to the crc-loader artifact from a Cubbles-Base.
+        Take care: All other dependencies are expected to be available within the same Base!
+
+        Want to add a 'main' -script to be executed after the dependencies have been loaded?
+        If yes, add the following attribute: data-crc-main="js/my-script.js"
+    -->
+    <script src="../../../cubx.core.rte@1.5.0-SNAPSHOT/crc-loader/js/main.js" data-CRCInit.loadCIF="true"></script>
+
+</head>
+<body>
+<!--
+    The cubbles client-runtime-container is bound to the next element.
+    Place Cubbles-Component there as child element.
+    Note: Currently there is only one element supported. This will change in future (@see PLAT-205).
+-->
+<div>
+    <h1>&lt;line-chart&gt; Demo</h1>
+    <h2>Slots:</h2>
+    <p>Hint: User JSON for input slots of type object/array!</p>
+    <div style="width:50%">
+        <form style="width:100%;">
+            <label for="dataColumns"><h3>dataColumns (Array):</h3></label>
+            <textarea id="dataColumns" style="height:100px;width:100%;">[["dataSet1", 10, 20, 50, 100, 40, 20, 70],
+                ["dataSet2", 100, 40, 10, 75, 50, 50, 90],
+                ["dataSet3", 15, 30, 50, 40, 15, 120, 80]]</textarea>
+            <button id="btn_dataColumns" disabled="disabled" style="float:right;" type="button">Set</button>
+            <label for="xLabels"><h3>xLabels (Array):</h3></label>
+            <textarea id="xLabels" style="height:50px;width:100%;">["Label 1","Label 2","Label 3","Label 4","Label 5","Label 6",
+                "Label 7"]</textarea>
+            <button id="btn_xLabels" disabled="disabled" style="float:right;" type="button">Set</button>
+        </form>
+    </div>
+</div>
+<div style="width:100%;height:1px;background-color:#0b0b0b;display:inline-block;"></div>
+<h2>View:</h2>
+<div cubx-core-crc>
+    <line-chart></line-chart>
+</div>
+
+<script>
+    (function(){
+        'use strict'
+
+        var dataColumns = document.getElementById('dataColumns')
+        var btn_dataColumns = document.getElementById('btn_dataColumns')
+        var xLabels = document.getElementById('xLabels')
+        var btn_xLabels = document.getElementById('btn_xLabels')
+        var lineChart = document.getElementsByTagName('line-chart')[0]
+
+
+        document.addEventListener('cifReady', function() {
+            btn_dataColumns.removeAttribute('disabled')
+            btn_xLabels.removeAttribute('disabled')
+        })
+
+        btn_dataColumns.addEventListener('click', function() {
+            var value = dataColumns.value === '' ? null : JSON.parse(dataColumns.value)
+            lineChart.setDataColumns(value)
+        })
+
+        btn_xLabels.addEventListener('click', function() {
+            var value = xLabels.value === '' ? null : JSON.parse(xLabels.value)
+            lineChart.setXLabels(value)
+        })
+
+    })()
+</script>
+</body>
+</html>
