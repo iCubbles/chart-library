@@ -37,7 +37,7 @@
               "base-chart.html"
             ],
             "dependencies": [
-              "cubx.core.rte@1.5.0-SNAPSHOT/cubxpolymer/main",
+              "cubx.core.rte@1.8.0/cubxpolymer/main",
               "c3-0.4.11-rc4@1.0.0/c3/main",
               "lodash-3.10.1@1.0.1/lodash/html-import",
               "q-1.4.1@1.0.0/q/html-import"
@@ -88,7 +88,7 @@
               "lib/prettify.css"
             ],
             "dependencies": [
-              "cubx.core.rte@1.5.0/cubxpolymer/main"
+              "cubx.core.rte@1.8.0/cubxpolymer/main"
             ]
           }
         ],
@@ -128,7 +128,7 @@
               "html-renderer.html"
             ],
             "dependencies": [
-              "cubx.core.rte@1.5.0/cubxpolymer/main"
+              "cubx.core.rte@1.8.0/cubxpolymer/main"
             ]
           }
         ],
