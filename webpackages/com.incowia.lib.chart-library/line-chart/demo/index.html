@@ -3,24 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>&lt;line-chart&gt;</title>
+    <title>&lt;line-chart&gt; demo</title>
 
-    <script src="../../../cubx.core.rte@1.8.0/webcomponents/webcomponents-lite.js"></script>
-
-    <!--
-        Declare a CRCInit-Object used to initialize the CRC (Client-Runtime-Container):
-        * rootDependencies //a string array; string pattern: webpackageId/artifactId/endpointId
-        ** to refer to artifacts of this webpackage, use 'this' as webpackageId
-    -->
-    <script>
-        window.cubx = {
-            CRCInit: {
-                rootDependencies: [
-                    "this/line-chart/main"
-                ]
-            }
-        }
-    </script>
+    <script src="../../../cubx.core.rte@2.0.1/webcomponents-lite/webcomponents-lite.js"></script>
 
     <!--
         Refer to the crc-loader artifact from a Cubbles-Base.
@@ -29,15 +14,10 @@
         Want to add a 'main' -script to be executed after the dependencies have been loaded?
         If yes, add the following attribute: data-crc-main="js/my-script.js"
     -->
-    <script src="../../../cubx.core.rte@1.8.0/crc-loader/js/main.js" data-CRCInit.loadCIF="true"></script>
+    <script src="../../../cubx.core.rte@2.0.1/crc-loader/js/main.js" data-crcinit-loadcif="true"></script>
 
 </head>
 <body>
-<!--
-    The cubbles client-runtime-container is bound to the next element.
-    Place Cubbles-Component there as child element.
-    Note: Currently there is only one element supported. This will change in future (@see PLAT-205).
--->
 <div>
     <h1>&lt;line-chart&gt; Demo</h1>
     <h2>Slots:</h2>
@@ -58,9 +38,7 @@
 </div>
 <div style="width:100%;height:1px;background-color:#0b0b0b;display:inline-block;"></div>
 <h2>View:</h2>
-<div cubx-core-crc>
-    <line-chart></line-chart>
-</div>
+<line-chart cubx-webpackage-id="this"></line-chart>
 
 <script>
     (function(){
