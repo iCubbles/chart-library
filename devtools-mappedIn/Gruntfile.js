@@ -1,4 +1,4 @@
-/*global process, __dirname*/
+/* global process, __dirname */
 'use strict';
 var path = require('path');
 var _ = require('lodash');
@@ -34,6 +34,7 @@ module.exports = function (grunt) {
   var workspacePath = require('./lib/detect-workspace.js')(grunt, workspaceName);
   var workspaceConfigPath = path.join(workspacePath, '.workspace');
   grunt.verbose.writeln('workspacePath: ' + workspacePath);
+  grunt.verbose.writeln('workspaceConfigPath: ' + workspaceConfigPath);
   require('./lib/validate-workspace.js')(grunt, workspacePath);
 
   /**
@@ -50,14 +51,17 @@ module.exports = function (grunt) {
       tmp: '.tmp'
     },
     config: { // set default configs location
-      src: [ 'tasks/configs/*.js', workspacePath + '**/grunt-wct*.js' ]
+      src: [ 'tasks/configs/*.js', path.join(workspacePath, '**', 'grunt-wct*.js') ]
     }
   };
 
   /**
    * Analyse workspace. If webpackage configured extend the options.
    */
-  var activeWebpackage = grunt.file.readJSON(workspaceConfigPath).activeWebpackage;
+  var config = grunt.file.readJSON(workspaceConfigPath);
+  // update the enviroment variable for proxy, if configured.
+  updateProxyConfig(config);
+  var activeWebpackage = config.activeWebpackage;
   if (activeWebpackage && activeWebpackage.length > 0) {
     var activeWebpackageConfigPath = path.join(workspacePath, activeWebpackage, '.webpackage');
     var manifestWebpackagePath = path.join(workspacePath, activeWebpackage, 'manifest.webpackage');
@@ -67,15 +71,16 @@ module.exports = function (grunt) {
       (function () {
         // Webpackage related grunt options
         var webpackageRelatedOptions = {
+          workspaceConfigObject: config,
           activeWebpackage: activeWebpackage,
           activeWebpackageConfigPath: activeWebpackageConfigPath,
           activeWebpackageConfig: grunt.file.readJSON(activeWebpackageConfigPath),
           manifestWebpackagePath: manifestWebpackagePath,
           manifestWebpackage: manifestFileAsJSON,
           param: {
-            src: workspacePath + activeWebpackage,
-            dst: workspacePath + activeWebpackage + '@' + manifestFileAsJSON.version,
-            doc: '../docs/' + activeWebpackage
+            src: path.join(workspacePath, activeWebpackage),
+            dst: path.join(workspacePath, activeWebpackage + '@' + manifestFileAsJSON.version),
+            doc: path.join('..', 'docs', activeWebpackage)
           }
         };
         options = _.merge(options, webpackageRelatedOptions);
@@ -93,5 +98,14 @@ module.exports = function (grunt) {
    */
   var configs = require('load-grunt-configs')(grunt, options);
   grunt.initConfig(configs);
-  // console.log(grunt.config.get('param.src'));
+
+  function updateProxyConfig (workSpaceConfig) {
+    if (workSpaceConfig && workSpaceConfig.https_proxy) {
+      process.env.https_proxy = workSpaceConfig.https_proxy;
+    }
+    if (workSpaceConfig && workSpaceConfig.http_proxy) {
+      process.env.http_proxy = workSpaceConfig.http_proxy;
+    }
+  }
 };
+
