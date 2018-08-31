@@ -1,13 +1,8 @@
 /*globals c3,Q,_*/
 (function () {
   'use strict';
-  /**
-   * Get help:
-   * > Lifecycle callbacks:
-   * https://www.polymer-project.org/1.0/docs/devguide/registering-elements.html#lifecycle-callbacks
-   *
-   */
-  CubxPolymer({
+
+  CubxComponent({
     is: 'base-chart',
 
     // valid chart types
@@ -21,14 +16,7 @@
       'area-spline', 'pie'
     ],
 
-    /**
-     * Manipulate an element’s local DOM when the element is constructed.
-     */
-    ready: function () {
-
-    },
-
-    cubxReady: function () {
+    contextReady: function () {
       this._cubxReady = true;
       this._drawChart();
     },
